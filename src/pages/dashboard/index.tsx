@@ -3,10 +3,11 @@ import Sidebar from "@/components/sidebar";
 
 interface IDashboard {
   className?: string;
-  role: "team member" | "project manager" | "admin";
 }
 
-const Dashboard = ({ className, role = "team member" }: IDashboard) => {
+const Dashboard = ({ className }: IDashboard) => {
+  const role = "admin";
+
   return (
     <div className={cn("", className)}>
       <Sidebar>
