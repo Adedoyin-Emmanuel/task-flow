@@ -1,6 +1,5 @@
 import { Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
-import Report from "@/pages/report";
 import UserId from "@/pages/userId";
 import Project from "@/pages/project";
 import ProjectId from "@/pages/project/projectId";
@@ -10,7 +9,6 @@ import TaskId from "@/pages/task/taskId";
 export const projectManagerRoutes = [
   <Route index path="" element={<Dashboard />} />,
   <Route path="dashboard" element={<Dashboard />} key={"projectManagerDashboard"} />,
-  <Route path="reports" element={<Report />} key={"projectManagerReports"} />,
   <Route path="users" element={<>all users</>} key={"projectManagerAllUsers"} />,
   <Route path="users/:userId" element={<UserId />} key={"projectManagerUserId"} />,
   <Route path="projects" element={<Project />} key={"projectManagerProjects"} />,
