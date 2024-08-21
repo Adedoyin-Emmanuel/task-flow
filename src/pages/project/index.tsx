@@ -86,13 +86,15 @@ const Project = ({ className, role }: IProject) => {
           ))}
         </div>
 
+        <br />
         <Button
           onClick={() => {
             console.log("hello world");
           }}
-          className="flex items-center gap-x-2 my-3"
+          className="flex items-center gap-x-2"
         >
-          <FolderPlus size={22} strokeWidth={1.2} /> Create a new project
+          <FolderPlus size={22} strokeWidth={1.2} />
+          Create a new project
         </Button>
       </Sidebar>
     </div>
