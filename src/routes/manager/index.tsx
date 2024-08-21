@@ -22,7 +22,7 @@ export const projectManagerRoutes = [
   />,
   <Route
     path="projects"
-    element={<Project />}
+    element={<Project role={"project manager"} />}
     key={"projectManagerProjects"}
   />,
   <Route

@@ -27,7 +27,11 @@ export const adminRoutes = [
     element={<MemberId />}
     key={"adminMemberId"}
   />,
-  <Route path="projects" element={<Project />} key={"adminProjects"} />,
+  <Route
+    path="projects"
+    element={<Project role="admin" />}
+    key={"adminProjects"}
+  />,
   <Route
     path="projects/:projectId"
     element={<ProjectId />}
