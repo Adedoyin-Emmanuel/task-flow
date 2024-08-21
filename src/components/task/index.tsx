@@ -58,17 +58,21 @@ const Task = ({ className, endDate, status, title, description }: ITask) => {
             <EllipsisVertical strokeWidth={1.5} size={25} />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+            <DropdownMenuLabel>Task Optionss</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup
               value={position}
               onValueChange={setPosition}
             >
-              <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="bottom">
-                Bottom
+              <DropdownMenuRadioItem value="top">
+                View Task
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="bottom">
+                Edit Task
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="right">
+                Mark as completed
+              </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
