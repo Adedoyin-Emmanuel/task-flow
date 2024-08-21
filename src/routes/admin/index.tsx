@@ -1,7 +1,7 @@
 import { Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
 import Report from "@/pages/report";
-import UserId from "@/pages/userId";
+import UserId from "@/pages/member/memberId";
 import Project from "@/pages/project";
 import ProjectId from "@/pages/project/projectId";
 import Task from "@/pages/task";
