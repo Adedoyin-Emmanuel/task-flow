@@ -1,17 +1,18 @@
+import { cn } from "@/lib/utils";
+import Sidebar from "@/components/sidebar";
 
-import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-
-const TaskId = () => {
-
-    const navigateTo = useNavigate();
-
-    return (
-        <div>
-            <h1>TaskId works!</h1>
-        </div>
-    );  
+interface ITask {
+  className?: string;
 }
 
+const TaskId = ({ className }: ITask) => {
+  return (
+    <div className={cn("", className)}>
+      <Sidebar>
+        <h2 className="text-2xl font-bold capitalize">Task Id</h2>
+      </Sidebar>
+    </div>
+  );
+};
+
 export default TaskId;
-    

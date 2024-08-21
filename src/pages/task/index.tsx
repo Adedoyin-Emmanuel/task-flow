@@ -1,12 +1,16 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import Sidebar from "@/components/sidebar";
 
-const Task = () => {
-  const navigateTo = useNavigate();
+interface ITask {
+  className?: string;
+}
 
+const Task = ({ className }: ITask) => {
   return (
-    <div>
-      <h1>Tasks works!</h1>
+    <div className={cn("", className)}>
+      <Sidebar>
+        <h2 className="text-2xl font-bold capitalize">Tasks</h2>
+      </Sidebar>
     </div>
   );
 };
