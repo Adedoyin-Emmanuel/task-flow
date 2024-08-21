@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
+import StatsCard from "@/components/stats-card";
 
 interface IDashboard {
   className?: string;
@@ -91,6 +92,8 @@ const Dashboard = ({ className, role }: IDashboard) => {
             </div>
           ))}
         </div>
+
+        <StatsCard />
       </Sidebar>
     </div>
   );

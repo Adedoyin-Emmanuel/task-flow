@@ -8,10 +8,10 @@ import Task from "@/pages/task";
 import TaskId from "@/pages/task/taskId";
 
 export const projectManagerRoutes = [
-  <Route index path="" element={<Dashboard />} />,
+  <Route index path="" element={<Dashboard role="project manager" />} />,
   <Route
     path="dashboard"
-    element={<Dashboard />}
+    element={<Dashboard role="project manager" />}
     key={"projectManagerDashboard"}
   />,
   <Route path="members" element={<Member />} key={"projectManagerMember"} />,

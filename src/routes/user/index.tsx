@@ -9,7 +9,7 @@ import Member from "@/pages/member";
 import MemberId from "@/pages/member/memberId";
 
 export const userRoutes = [
-  <Route path="/dashboard" element={<Dashboard />} key={"dashboard"} />,
+  <Route path="/dashboard" element={<Dashboard role="team member"/>} key={"dashboard"} />,
   <Route path="/me" element={<Me />} key={"me"} />,
   <Route path="/projects" element={<Project />} key={"project"} />,
   <Route
