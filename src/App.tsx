@@ -5,7 +5,6 @@ import { authRoutes } from "@/routes/auth";
 import { userRoutes } from "@/routes/user";
 import { adminRoutes } from "@/routes/admin";
 import { projectManagerRoutes } from "./routes/manager";
-import logout from "./pages/logout";
 
 function App() {
   return (
