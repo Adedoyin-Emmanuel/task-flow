@@ -1,17 +1,16 @@
+import { cn } from "@/lib/utils";
 
-import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-
-const Dashboard = () => {
-
-    const navigateTo = useNavigate();
-
-    return (
-        <div>
-            <h1>Dashboard works!</h1>
-        </div>
-    );  
+interface IDashboard {
+  className?: string;
+  role: "team member" | "project manager" | "admin";
 }
 
+const Dashboard = ({ className, role = "team member" }: IDashboard) => {
+  return (
+    <div className={cn("", className)}>
+      <h2 className="text-2xl font-bold capitalize">{role} Dashboard</h2>
+    </div>
+  );
+};
+
 export default Dashboard;
-    
