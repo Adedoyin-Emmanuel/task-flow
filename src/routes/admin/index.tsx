@@ -9,11 +9,24 @@ import TaskId from "@/pages/task/taskId";
 import MemberId from "@/pages/member/memberId";
 
 export const adminRoutes = [
-  <Route index path="" element={<Dashboard />} key={"adminDashboard01"} />,
-  <Route path="dashboard" element={<Dashboard />} key={"adminDashboard"} />,
+  <Route
+    index
+    path=""
+    element={<Dashboard role="admin" />}
+    key={"adminDashboard01"}
+  />,
+  <Route
+    path="dashboard"
+    element={<Dashboard role="admin" />}
+    key={"adminDashboard"}
+  />,
   <Route path="reports" element={<Report />} key={"adminReports"} />,
   <Route path="members" element={<Member />} key={"adminMember"} />,
-  <Route path="members/:memberId" element={<MemberId />} key={"adminMemberId"} />,
+  <Route
+    path="members/:memberId"
+    element={<MemberId />}
+    key={"adminMemberId"}
+  />,
   <Route path="projects" element={<Project />} key={"adminProjects"} />,
   <Route
     path="projects/:projectId"
