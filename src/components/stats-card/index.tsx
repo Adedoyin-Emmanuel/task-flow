@@ -19,7 +19,7 @@ const StatsCard = ({
 }: IStatsCard) => {
   return (
     <section
-      className={cn(" w-full border rounded-md p-4 cursor-pointer", className)}
+      className={cn("w-full border rounded-md p-4 cursor-pointer", className)}
     >
       <section className="flex items-center justify-between">
         <h1 className="text-[1.3rem] font-extrabold">{name}</h1>
