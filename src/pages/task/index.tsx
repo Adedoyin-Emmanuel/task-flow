@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
-import { ListFilter } from "lucide-react";
+import { FolderPlus, ListFilter } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -110,6 +110,17 @@ const Task = ({ className }: ITask) => {
           ))}
         </div>
       </Sidebar>
+
+      <section className="fixed bottom-20 right-10">
+        <section
+          className={`w-16 h-16 flex items-center justify-center  bg-gray-50 rounded-full shadow cursor-pointer relative transform-gpu transition-transform duration-200 scale-100 hover:scale-110 ${className}`}
+          onClick={() => {
+            console.log("clicked");
+          }}
+        >
+          <FolderPlus className="h-10 w-10 " strokeWidth={1.2} />
+        </section>
+      </section>
     </div>
   );
 };
