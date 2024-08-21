@@ -95,7 +95,7 @@ const Sidebar = ({ children, className }: ISidenav) => {
           </Link>
           <Link
             className={
-              currentPath.includes("users")
+              currentPath.includes("members")
                 ? currentPathClass
                 : sidebarItemsClass
             }
