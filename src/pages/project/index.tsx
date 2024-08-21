@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 
+
 interface IProject {
   className?: string;
 }
