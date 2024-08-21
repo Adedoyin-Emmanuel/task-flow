@@ -1,17 +1,18 @@
+import { cn } from "@/lib/utils";
+import Sidebar from "@/components/sidebar";
 
-import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-
-const ProjectId = () => {
-
-    const navigateTo = useNavigate();
-
-    return (
-        <div>
-            <h1>ProjectId works!</h1>
-        </div>
-    );  
+interface IProject {
+  className?: string;
 }
 
+const ProjectId = ({ className }: IProject) => {
+  return (
+    <div className={cn("", className)}>
+      <Sidebar>
+        <h2 className="text-2xl font-bold capitalize">Projects Id</h2>
+      </Sidebar>
+    </div>
+  );
+};
+
 export default ProjectId;
-    
