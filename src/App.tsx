@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { publicRoutes } from "@/routes/public";
 import { authRoutes } from "@/routes/auth";
-import taskId from "./pages/task/taskId";
+import { userRoutes } from "@/routes/user";
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/">{publicRoutes}</Route>
         <Route path="/auth">{authRoutes}</Route>
+        <Route path="/">{userRoutes}</Route>
       </Routes>
     </BrowserRouter>
   );
