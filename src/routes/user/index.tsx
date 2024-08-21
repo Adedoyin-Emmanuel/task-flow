@@ -7,10 +7,14 @@ import Dashboard from "@/pages/dashboard";
 import ProjectId from "@/pages/project/projectId";
 
 export const userRoutes = [
-  <Route path="/dashboard" element={<Dashboard />} />,
-  <Route path="/me" element={<Me />} />,
-  <Route path="/projects" element={<Project />} />,
-  <Route path="/projects/:projectId" element={<ProjectId />} />,
-  <Route path="/tasks" element={<Task />} />,
-  <Route path="/tasks/:taskId" element={<TaskId />} />,
+  <Route path="/dashboard" element={<Dashboard />} key={"dashboard"} />,
+  <Route path="/me" element={<Me />} key={"me"} />,
+  <Route path="/projects" element={<Project />} key={"project"} />,
+  <Route
+    path="/projects/:projectId"
+    element={<ProjectId />}
+    key={"projectId"}
+  />,
+  <Route path="/tasks" element={<Task />} key={"task"} />,
+  <Route path="/tasks/:taskId" element={<TaskId />} key={"taskId"} />,
 ];
