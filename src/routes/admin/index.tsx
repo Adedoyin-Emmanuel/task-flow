@@ -8,7 +8,7 @@ import Task from "@/pages/task";
 import TaskId from "@/pages/task/taskId";
 
 export const adminRoutes = [
-  <Route index path="" element={<Dashboard />} />,
+  <Route index path="" element={<Dashboard />} key={"adminDashboard01"} />,
   <Route path="dashboard" element={<Dashboard />} key={"adminDashboard"} />,
   <Route path="reports" element={<Report />} key={"adminReports"} />,
   <Route path="users" element={<>all users</>} key={"adminAllUsers"} />,
