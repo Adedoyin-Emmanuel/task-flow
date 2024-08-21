@@ -1,11 +1,15 @@
 import "./App.css";
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { publicRoutes } from "@/routes/public";
+import { authRoutes } from "./routes/auth";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>{publicRoutes}</Routes>
+      <Routes>
+        <Route path="/">{publicRoutes}</Route>
+        <Route path="/auth">{authRoutes}</Route>
+      </Routes>
     </BrowserRouter>
   );
 }
