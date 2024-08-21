@@ -5,6 +5,9 @@ import signup from "./pages/signup";
 import projects from "./pages/projects";
 import tasks from "./pages/tasks";
 import dashboard from "./pages/dashboard";
+import reports from "./pages/reports";
+import profile from "./pages/profile";
+import me from "./pages/me";
 
 function App() {
   return (
