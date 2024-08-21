@@ -1,16 +1,24 @@
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import React from "react";
-
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface IMember {
   className?: string;
@@ -57,7 +65,7 @@ const Member = ({ className }: IMember) => {
       <Sidebar>
         <h2 className="text-2xl font-bold capitalize">Members</h2>
 
-        <div className="mb-6">
+        <div className="mb-6 flex items-center gap-x-3 my-2">
           <label className="mr-4">Filter by Role:</label>
 
           <Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -75,30 +83,32 @@ const Member = ({ className }: IMember) => {
           </Select>
         </div>
 
-        <table className="min-w-full bg-white shadow rounded-md">
-          <thead>
-            <tr>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                Name
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                Role
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                Email
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Email</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {filteredUsers.map((user) => (
-              <tr key={user.id} className="border-t">
-                <td className="py-3 px-4">{user.name}</td>
-                <td className="py-3 px-4">{user.role}</td>
-                <td className="py-3 px-4">{user.email}</td>
-              </tr>
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.email}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total Users</TableCell>
+              <TableCell className="text-right">
+                {filteredUsers.length}
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
       </Sidebar>
     </div>
   );
