@@ -19,61 +19,38 @@ import React from "react";
 import { Axios } from "@/config/axios";
 import { toast } from "sonner";
 import Loader from "@/components/loader";
+import { Textarea } from "@/components/ui/textarea";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface IProject {
   className?: string;
 }
 
 const Project = ({ className }: IProject) => {
-  let projects: any = [];
   const [showCreateProjectDialog, setCreateProjectDialog] =
     React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [allProjects, setAllProjects] = React.useState([]);
-
-  const adminProjects = [
-    {
-      id: 1,
-      name: "Project Alpha",
-      completedTasks: 5,
-      totalTasks: 10,
-      progressPercentage: 50,
-    },
-    {
-      id: 2,
-      name: "Project Beta",
-      completedTasks: 8,
-      totalTasks: 20,
-      progressPercentage: 40,
-    },
-    {
-      id: 3,
-      name: "Project Gamma",
-      completedTasks: 15,
-      totalTasks: 15,
-      progressPercentage: 100,
-    },
-  ];
-
-  const projectManagerProjects = [
-    {
-      id: 1,
-      name: "Project Alpha",
-      completedTasks: 5,
-      totalTasks: 10,
-      progressPercentage: 50,
-    },
-  ];
-
-  const teamMemberProjects = [
-    {
-      id: 1,
-      name: "Project Alpha",
-      completedTasks: 2,
-      totalTasks: 10,
-      progressPercentage: 20,
-    },
-  ];
+  const [projectManagers, setProjectManagers] = React.useState([]);
+  const [startDate, setStartDate] = React.useState<Date>();
+  const [endDate, setEndDate] = React.useState<Date>();
 
   const { user } = useAuth();
 
@@ -81,31 +58,15 @@ const Project = ({ className }: IProject) => {
     return <Navigate to="/auth/login" replace />;
   }
 
-  const { role } = user;
-
-  switch (role) {
-    case "admin":
-      projects = adminProjects;
-      break;
-    case "project manager":
-      projects = projectManagerProjects;
-      break;
-    case "team member":
-      projects = teamMemberProjects;
-      break;
-    default:
-      throw new Error("Invalid role specified");
-  }
-
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await Axios.get("/api/dashboard/overview");
+        const response2 = await Axios.get("/api/user/project-managers");
 
         setAllProjects(response.data.data);
-
-        console.log(response.data.data);
+        setProjectManagers(response2.data.data);
       } catch (error: any) {
         toast.error(error.response?.data.message || error.message);
       } finally {
@@ -122,29 +83,125 @@ const Project = ({ className }: IProject) => {
         open={showCreateProjectDialog}
         onOpenChange={setCreateProjectDialog}
       >
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
+            <DialogTitle>Create Project</DialogTitle>
+            <DialogDescription>Create a new project.</DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid gap-4 py-4 w-full">
+            <div className="my-1">
               <Label htmlFor="name" className="text-right">
                 Name
               </Label>
-              <Input id="name" value="Pedro Duarte" className="col-span-3" />
+              <Input
+                id="name"
+                value=""
+                className="col-span-3"
+                placeholder="Enter project name"
+              />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
+
+            <div className="my-1">
               <Label htmlFor="username" className="text-right">
-                Username
+                Description
               </Label>
-              <Input id="username" value="@peduarte" className="col-span-3" />
+              <Textarea
+                placeholder="Enter project description"
+                rows={3}
+                className="w-full"
+              />
+            </div>
+
+            <div className="my-1">
+              <Label htmlFor="startDate" className="text-right">
+                Start Date
+              </Label>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? (
+                      format(startDate, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="my-1">
+              <Label htmlFor="endDate" className="text-right">
+                End Date
+              </Label>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? (
+                      format(endDate, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="my-1">
+              <Label htmlFor="projectManager" className="text-right">
+                Select Project Manager
+              </Label>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a project" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Select a project manager</SelectLabel>
+
+                    {projectManagers.map((manager: any, _i: any) => (
+                      <SelectItem value={manager.name} key={_i}>
+                        {manager.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Create project</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
