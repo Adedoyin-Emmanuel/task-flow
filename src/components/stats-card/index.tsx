@@ -17,6 +17,7 @@ interface IStatsCard {
   totalTasks: number;
   completedTasks: number;
   showDropDown?: boolean;
+  id?: string;
 }
 
 const StatsCard = ({
@@ -26,7 +27,12 @@ const StatsCard = ({
   totalTasks,
   completedTasks,
   showDropDown = false,
+  id,
 }: IStatsCard) => {
+  const generateReport = async (projectId: string) => {
+    location.href = `http://localhost:8000/api/report/project/${projectId}`;
+  };
+
   const icon = showDropDown ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,13 +41,20 @@ const StatsCard = ({
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Project Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Generate Report</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            generateReport(id as string);
+          }}
+        >
+          Generate Report
+        </DropdownMenuItem>
         <DropdownMenuItem>View Project</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (
     <Box strokeWidth={1} size={30} />
   );
+
   return (
     <section
       className={cn("w-full border rounded-md p-4 cursor-pointer", className)}

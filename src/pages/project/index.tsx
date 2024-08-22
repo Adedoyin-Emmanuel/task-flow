@@ -267,6 +267,7 @@ const Project = ({ className }: IProject) => {
                 totalTasks={project.total_tasks}
                 progressPercentage={project.progress}
                 showDropDown={true}
+                id={project.project.id}
               />
             ))
           ) : (
