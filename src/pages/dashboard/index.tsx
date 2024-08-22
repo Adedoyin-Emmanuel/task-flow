@@ -13,15 +13,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useAuth from "@/store/useAuth";
+import { Navigate } from "react-router-dom";
 
 interface IDashboard {
   className?: string;
-  role: "admin" | "team member" | "project manager";
 }
 
-const Dashboard = ({ className, role }: IDashboard) => {
+const Dashboard = ({ className }: IDashboard) => {
   let projects: any = [];
   const [statusFilter, setStatusFilter] = React.useState("all");
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  const { role } = user;
 
   const adminProjects = [
     {

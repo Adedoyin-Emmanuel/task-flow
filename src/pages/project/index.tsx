@@ -3,13 +3,14 @@ import Sidebar from "@/components/sidebar";
 import StatsCard from "@/components/stats-card";
 import { Button } from "@/components/ui/button";
 import { FolderPlus } from "lucide-react";
+import useAuth from "@/store/useAuth";
+import { Navigate } from "react-router-dom";
 
 interface IProject {
   className?: string;
-  role: "admin" | "team member" | "project manager";
 }
 
-const Project = ({ className, role }: IProject) => {
+const Project = ({ className }: IProject) => {
   let projects: any = [];
 
   const adminProjects = [
@@ -55,6 +56,14 @@ const Project = ({ className, role }: IProject) => {
       progressPercentage: 20,
     },
   ];
+
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  const { role } = user;
 
   switch (role) {
     case "admin":

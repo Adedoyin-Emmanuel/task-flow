@@ -1,42 +1,68 @@
 import { Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
-import Report from "@/pages/report";
 import Member from "@/pages/member/";
 import Project from "@/pages/project";
 import ProjectId from "@/pages/project/projectId";
 import Task from "@/pages/task";
-import TaskId from "@/pages/task/taskId";
-import MemberId from "@/pages/member/memberId";
+import ProtectedRoute from "@/components/protected-route";
+
+const ADMIN_ROLE = "admin";
 
 export const adminRoutes = [
   <Route
     index
     path=""
-    element={<Dashboard role="admin" />}
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <Dashboard />
+      </ProtectedRoute>
+    }
     key={"adminDashboard01"}
   />,
   <Route
     path="dashboard"
-    element={<Dashboard role="admin" />}
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <Dashboard />
+      </ProtectedRoute>
+    }
     key={"adminDashboard"}
   />,
-  <Route path="reports" element={<Report />} key={"adminReports"} />,
-  <Route path="members" element={<Member />} key={"adminMember"} />,
   <Route
-    path="members/:memberId"
-    element={<MemberId />}
-    key={"adminMemberId"}
+    path="members"
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <Member />
+      </ProtectedRoute>
+    }
+    key={"adminMember"}
   />,
+
   <Route
     path="projects"
-    element={<Project role="admin" />}
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <Project />
+      </ProtectedRoute>
+    }
     key={"adminProjects"}
   />,
   <Route
     path="projects/:projectId"
-    element={<ProjectId />}
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <ProjectId />
+      </ProtectedRoute>
+    }
     key={"adminProjectId"}
   />,
-  <Route path="tasks" element={<Task />} key={"adminTasks"} />,
-  <Route path="tasks/:taskId" element={<TaskId />} key={"adminTasks"} />,
+  <Route
+    path="tasks"
+    element={
+      <ProtectedRoute allowedRole={ADMIN_ROLE}>
+        <Task />
+      </ProtectedRoute>
+    }
+    key={"adminTasks"}
+  />,
 ];

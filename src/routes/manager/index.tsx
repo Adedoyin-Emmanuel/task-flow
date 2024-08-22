@@ -1,39 +1,66 @@
 import { Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
 import Member from "@/pages/member";
-import MemberId from "@/pages/member/memberId";
 import Project from "@/pages/project";
 import ProjectId from "@/pages/project/projectId";
 import Task from "@/pages/task";
-import TaskId from "@/pages/task/taskId";
+import ProtectedRoute from "@/components/protected-route";
 
+const PROJECT_MANAGER_ROLE = "project manager";
 export const projectManagerRoutes = [
-  <Route index path="" element={<Dashboard role="project manager" />} />,
+  <Route
+    index
+    path=""
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <Dashboard />
+      </ProtectedRoute>
+    }
+  />,
   <Route
     path="dashboard"
-    element={<Dashboard role="project manager" />}
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <Dashboard />
+      </ProtectedRoute>
+    }
     key={"projectManagerDashboard"}
   />,
-  <Route path="members" element={<Member />} key={"projectManagerMember"} />,
   <Route
-    path="members/:memberId"
-    element={<MemberId />}
-    key={"projectManageMemberId"}
+    path="members"
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <Member />
+      </ProtectedRoute>
+    }
+    key={"projectManagerMember"}
   />,
+
   <Route
     path="projects"
-    element={<Project role={"project manager"} />}
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <Project />
+      </ProtectedRoute>
+    }
     key={"projectManagerProjects"}
   />,
   <Route
     path="projects/:projectId"
-    element={<ProjectId />}
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <ProjectId />
+      </ProtectedRoute>
+    }
     key={"projectManagerProjectId"}
   />,
-  <Route path="tasks" element={<Task />} key={"projectManagerTasks"} />,
   <Route
-    path="tasks/:taskId"
-    element={<TaskId />}
+    path="tasks"
+    element={
+      <ProtectedRoute allowedRole={PROJECT_MANAGER_ROLE}>
+        <Task />
+      </ProtectedRoute>
+    }
     key={"projectManagerTasks"}
   />,
 ];
