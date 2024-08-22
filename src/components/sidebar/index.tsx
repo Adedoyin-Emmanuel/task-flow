@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   Gauge,
   Settings,
@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 import { Drawer } from "vaul";
 import { Skeleton } from "@/components/ui/skeleton";
 import Text from "@/components/text";
+import useAuth from "@/store/useAuth";
 
 interface ISidenav {
   children: React.ReactNode;
@@ -43,6 +44,12 @@ const Sidebar = ({ children, className }: ISidenav) => {
     "hover:border-[1px] hover:border-[#e5e7eb] hover:bg-slate-50";
   const sidebarItemsClass = `${baseClass} border-transparent ${hoverClass}`;
   const currentPathClass = `${baseClass} bg-slate-50`;
+
+  const { user } = useAuth();
+
+  if (!user) return <Navigate to={"/unauthorized"} replace />;
+
+  const { role } = user;
 
   const SidebarContent = ({ role }: ISidebarContent) => {
     let resolvedPath = "";
@@ -138,7 +145,7 @@ const Sidebar = ({ children, className }: ISidenav) => {
             ) : (
               <div className="w-full flex items-center gap-x-3 p-2 cursor-pointer">
                 <img
-                  src={"https://api.dicebear.com/7.x/micah/svg?seed=emmysoft"}
+                  src={`https://api.dicebear.com/7.x/micah/svg?seed=${user.name}`}
                   width={35}
                   height={35}
                   alt="User profile"
@@ -147,13 +154,13 @@ const Sidebar = ({ children, className }: ISidenav) => {
 
                 <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                   <strong className="overflow-hidden text-ellipsis whitespace-nowrap">
-                    Emmysoft
+                    {user.name}
                   </strong>
                   <p
                     className="text-[13px] text-slate-600 overflow-hidden text-ellipsis whitespace-nowrap
                   "
                   >
-                    adedoyine535@gmail.com
+                    {user.email}
                   </p>
                 </div>
               </div>
@@ -167,7 +174,7 @@ const Sidebar = ({ children, className }: ISidenav) => {
   return (
     <div className="h-screen w-screen flex ">
       <section className="md:flex hidden">
-        <SidebarContent role={"team member"} />
+        <SidebarContent role={role as any} />
       </section>
 
       <section className="md:hidden ">
@@ -205,9 +212,7 @@ const Sidebar = ({ children, className }: ISidenav) => {
                     <Skeleton className="w-10 h-10 rounded-full" />
                   ) : (
                     <img
-                      src={
-                        "https://api.dicebear.com/7.x/micah/svg?seed=emmysoft"
-                      }
+                      src={`https://api.dicebear.com/7.x/micah/svg?seed=${user.name}`}
                       width={35}
                       height={35}
                       alt="User profile"
@@ -228,7 +233,7 @@ const Sidebar = ({ children, className }: ISidenav) => {
           <Drawer.Portal>
             <Drawer.Overlay className="fixed inset-0 bg-black/40" />
             <Drawer.Content className="bg-white flex flex-col justify-between h-full w-3/4 mt-24 fixed bottom-0 z-[1000]">
-              <SidebarContent role={"team member"} />
+              <SidebarContent role={role as any} />
             </Drawer.Content>
           </Drawer.Portal>
         </Drawer.Root>

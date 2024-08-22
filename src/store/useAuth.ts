@@ -6,6 +6,10 @@ interface User {
   name: string;
   email: string;
   role: string;
+  created_at: string;
+  updated_at: string;
+  verified: boolean;
+  email_verified_at: string;
 }
 
 interface AuthState {
