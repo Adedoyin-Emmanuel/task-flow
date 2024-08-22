@@ -4,9 +4,12 @@ import useAuth from "@/store/useAuth";
 
 interface IProtectedRoute {
   children: React.ReactNode;
-  allowedRoles: "admin" | "team member" | "project manager";
+  allowedRole: "admin" | "team member" | "project manager";
 }
-const ProtectedRoute = ({ children, allowedRoles }: IProtectedRoute) => {
+const ProtectedRoute = ({
+  children,
+  allowedRole: allowedRoles,
+}: IProtectedRoute) => {
   const { user } = useAuth();
 
   if (!user) {
