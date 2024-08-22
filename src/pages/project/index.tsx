@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import StatsCard from "@/components/stats-card";
 import { Button } from "@/components/ui/button";
-import { FolderPlus } from "lucide-react";
+import { FolderDown, FolderPlus } from "lucide-react";
 import useAuth from "@/store/useAuth";
 import { Navigate } from "react-router-dom";
 import {
@@ -36,6 +36,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface IProject {
   className?: string;
@@ -285,6 +291,26 @@ const Project = ({ className }: IProject) => {
           <FolderPlus size={22} strokeWidth={1.2} />
           Create a new project
         </Button>
+
+        <section className="fixed bottom-20 right-10">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <section
+                  className={`w-16 h-16 flex items-center justify-center  bg-gray-50 rounded-full shadow cursor-pointer relative transform-gpu transition-transform duration-200 scale-100 hover:scale-110 ${className}`}
+                  onClick={() => {
+                    location.href = `http://localhost:8000/api/report/all-projects`;
+                  }}
+                >
+                  <FolderDown  className="h-10 w-10 " strokeWidth={1.2} />
+                </section>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Download all project reports</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </section>
       </Sidebar>
     </div>
   );
