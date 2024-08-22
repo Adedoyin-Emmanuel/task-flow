@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { EllipsisVertical } from "lucide-react";
 import React from "react";
 
@@ -58,7 +57,7 @@ const Task = ({ className, endDate, status, title, description }: ITask) => {
             <EllipsisVertical strokeWidth={1.5} size={25} />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Task Optionss</DropdownMenuLabel>
+            <DropdownMenuLabel>Task Options</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup
               value={position}
@@ -83,7 +82,7 @@ const Task = ({ className, endDate, status, title, description }: ITask) => {
         <p className="text-[13px] text-gray-500 my-2">{description}</p>
       </div>
 
-      <Separator />
+      {/* <Separator /> */}
 
       {/* <div className="my-1">
         <img

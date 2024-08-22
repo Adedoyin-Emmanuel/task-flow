@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Axios } from "@/config/axios";
+import Loader from "@/components/loader";
+import { toast } from "sonner";
 
 interface ITask {
   className?: string;
@@ -32,45 +35,29 @@ const Task = ({ className }: ITask) => {
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [showCreateTaskDialog, setCreateTaskDialog] = React.useState(false);
 
-  const tasks = [
-    {
-      id: 1,
-      title: "Design homepage",
-      description:
-        "Create the initial design and layout for the website's homepage.",
-      status: "completed",
-      endDate: "2024-08-18",
-    },
-    {
-      id: 2,
-      title: "Develop login feature",
-      description:
-        "Implement the login functionality, including user authentication and form validation.",
-      status: "in progress",
-      endDate: "2024-08-22",
-    },
-    {
-      id: 3,
-      title: "Fix bugs in dashboard",
-      description:
-        "Resolve existing bugs in the dashboard interface and improve performance.",
-      status: "overdue",
-      endDate: "2024-08-15",
-    },
-    {
-      id: 4,
-      title: "Fix bugs in API",
-      description:
-        "Identify and fix bugs in the API to ensure smooth data retrieval and interaction.",
-      status: "pending",
-      endDate: "2024-08-15",
-    },
-  ];
+  const [loading, setLoading] = React.useState(false);
+  const [allTasks, setAllTasks] = React.useState([]);
 
-  const filteredTasks = tasks.filter((task) => {
-    if (statusFilter === "all") return tasks;
+  const filteredTasks = allTasks.filter((task: any) => {
+    if (statusFilter === "all") return allTasks;
     return task.status === statusFilter;
   });
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await Axios.get("/api/task");
+        setAllTasks(response.data.data);
+      } catch (error: any) {
+        toast.error(error.response?.data.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const CreateTaskDialog = () => {
     return (
@@ -107,6 +94,7 @@ const Task = ({ className }: ITask) => {
   return (
     <div className={cn("", className)}>
       <Sidebar>
+        <Loader loading={loading} />
         <h1 className="text-2xl font-bold mb-4 capitalize flex items-center gap-x-2">
           Tasks
           <DropdownMenu>
@@ -125,6 +113,7 @@ const Task = ({ className }: ITask) => {
                 value={statusFilter}
                 onValueChange={setStatusFilter}
               >
+                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="pending">
                   Pending
                 </DropdownMenuRadioItem>
@@ -143,15 +132,19 @@ const Task = ({ className }: ITask) => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 w-full gap-4">
-          {filteredTasks.map((task, _i) => (
-            <TaskComponent
-              key={_i}
-              title={task.title}
-              status={task.status as any}
-              endDate={task.endDate}
-              description={task.description}
-            />
-          ))}
+          {filteredTasks.length > 0 ? (
+            filteredTasks.map((task: any, _i) => (
+              <TaskComponent
+                key={_i}
+                title={task.name}
+                status={task.status as any}
+                endDate={task.endDate}
+                description={task.description}
+              />
+            ))
+          ) : (
+            <p className="text-sm capitalize">No tasks found!</p>
+          )}
         </div>
       </Sidebar>
 
