@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import Loader from "@/components/loader";
+import { toast } from "sonner";
+import React from "react";
+import { Axios } from "@/config/axios";
 
 const Signup = () => {
   const formSchema = z.object({
@@ -46,12 +49,34 @@ const Signup = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const [loading, setLoading] = React.useState(false);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const { fullname, ...others } = values;
+
+      const dataToSend = {
+        name: fullname,
+        ...others,
+      };
+
+      await Axios.get("/sanctum/csrf-cookie");
+
+      const response = await Axios.post("/api/auth/register", dataToSend);
+
+      console.log(response.data);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response?.data.message || error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <Loader loading={loading} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -144,7 +169,7 @@ const Signup = () => {
             )}
           />
 
-          <Button type="submit" className="w-full my-4">
+          <Button type="submit" className="w-full my-4" disabled={loading}>
             Create Account
           </Button>
 
