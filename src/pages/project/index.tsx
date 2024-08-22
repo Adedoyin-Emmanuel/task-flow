@@ -5,6 +5,18 @@ import { Button } from "@/components/ui/button";
 import { FolderPlus } from "lucide-react";
 import useAuth from "@/store/useAuth";
 import { Navigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import React from "react";
 
 interface IProject {
   className?: string;
@@ -12,6 +24,8 @@ interface IProject {
 
 const Project = ({ className }: IProject) => {
   let projects: any = [];
+  const [showCreateProjectDialog, setCreateProjectDialog] =
+    React.useState(false);
 
   const adminProjects = [
     {
@@ -78,11 +92,46 @@ const Project = ({ className }: IProject) => {
     default:
       throw new Error("Invalid role specified");
   }
+
+  const CreateProjectDialog = () => {
+    return (
+      <Dialog
+        open={showCreateProjectDialog}
+        onOpenChange={setCreateProjectDialog}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Name
+              </Label>
+              <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className="text-right">
+                Username
+              </Label>
+              <Input id="username" value="@peduarte" className="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  };
+
   return (
     <div className={cn("", className)}>
       <Sidebar>
         <h2 className="text-2xl font-bold capitalize mb-2">Projects</h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project: any, _i: any) => (
             <StatsCard
@@ -94,11 +143,11 @@ const Project = ({ className }: IProject) => {
             />
           ))}
         </div>
-
         <br />
+        <CreateProjectDialog />
         <Button
           onClick={() => {
-            console.log("hello world");
+            setCreateProjectDialog(true);
           }}
           className="flex items-center gap-x-2"
         >

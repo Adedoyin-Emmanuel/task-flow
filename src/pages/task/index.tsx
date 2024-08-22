@@ -76,9 +76,6 @@ const Task = ({ className }: ITask) => {
   const CreateTaskDialog = () => {
     return (
       <Dialog open={showCreateTaskDialog} onOpenChange={setCreateTaskDialog}>
-        <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
-        </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
