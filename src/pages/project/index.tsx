@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
+import { Axios } from "@/config/axios";
+import { toast } from "sonner";
+import Loader from "@/components/loader";
 
 interface IProject {
   className?: string;
@@ -25,6 +28,8 @@ const Project = ({ className }: IProject) => {
   let projects: any = [];
   const [showCreateProjectDialog, setCreateProjectDialog] =
     React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [allProjects, setAllProjects] = React.useState([]);
 
   const adminProjects = [
     {
@@ -92,6 +97,25 @@ const Project = ({ className }: IProject) => {
       throw new Error("Invalid role specified");
   }
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await Axios.get("/api/dashboard/overview");
+
+        setAllProjects(response.data.data);
+
+        console.log(response.data.data);
+      } catch (error: any) {
+        toast.error(error.response?.data.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const CreateProjectDialog = () => {
     return (
       <Dialog
@@ -130,17 +154,22 @@ const Project = ({ className }: IProject) => {
   return (
     <div className={cn("", className)}>
       <Sidebar>
+        <Loader loading={loading} />
         <h2 className="text-2xl font-bold capitalize mb-2">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project: any, _i: any) => (
-            <StatsCard
-              name={project.name}
-              completedTasks={project.completedTasks}
-              totalTasks={project.totalTasks}
-              progressPercentage={project.progressPercentage}
-              showDropDown={true}
-            />
-          ))}
+          {allProjects.length > 0 ? (
+            allProjects.map((project: any, _i: any) => (
+              <StatsCard
+                name={project.project.name}
+                completedTasks={project.completed_tasks}
+                totalTasks={project.total_tasks}
+                progressPercentage={project.progress}
+                showDropDown={true}
+              />
+            ))
+          ) : (
+            <p className="text-sm capitalize">No projects found!</p>
+          )}
         </div>
         <br />
         <CreateProjectDialog />

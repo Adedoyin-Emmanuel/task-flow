@@ -85,7 +85,7 @@ const Task = ({ className, endDate, status, title, description }: ITask) => {
 
       <Separator />
 
-      <div className="my-1">
+      {/* <div className="my-1">
         <img
           src={"https://api.dicebear.com/7.x/micah/svg?seed=emmysoft"}
           width={35}
@@ -93,7 +93,7 @@ const Task = ({ className, endDate, status, title, description }: ITask) => {
           alt="User profile"
           className="mx-2 rounded-full"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

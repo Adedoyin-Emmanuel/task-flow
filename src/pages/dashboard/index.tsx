@@ -68,14 +68,18 @@ const Dashboard = ({ className }: IDashboard) => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.map((data: any, _i: any) => (
-            <StatsCard
-              name={data.project.name}
-              completedTasks={data.completed_tasks}
-              totalTasks={data.total_tasks}
-              progressPercentage={data.progress}
-            />
-          ))}
+          {data ? (
+            data.map((data: any, _i: any) => (
+              <StatsCard
+                name={data.project.name}
+                completedTasks={data.completed_tasks}
+                totalTasks={data.total_tasks}
+                progressPercentage={data.progress}
+              />
+            ))
+          ) : (
+            <p className="text-sm capitalize">No stats found</p>
+          )}
         </div>
 
         <br />
@@ -98,6 +102,7 @@ const Dashboard = ({ className }: IDashboard) => {
                 value={statusFilter}
                 onValueChange={setStatusFilter}
               >
+                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="pending">
                   Pending
                 </DropdownMenuRadioItem>
