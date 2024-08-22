@@ -15,6 +15,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/store/useAuth";
 import { Navigate } from "react-router-dom";
+import { Axios } from "@/config/axios";
+import { toast } from "sonner";
+import Loader from "@/components/loader";
 
 interface IDashboard {
   className?: string;
@@ -24,6 +27,8 @@ const Dashboard = ({ className }: IDashboard) => {
   let projects: any = [];
   const [statusFilter, setStatusFilter] = React.useState("all");
   const { user } = useAuth();
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   if (!user) {
     return <Navigate to="/auth/login" replace />;
@@ -74,6 +79,24 @@ const Dashboard = ({ className }: IDashboard) => {
       progressPercentage: 20,
     },
   ];
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await Axios.get("/api/dashboard/overview");
+
+        console.log(response.data.data[0]);
+        setData(response.data.data);
+      } catch (error: any) {
+        toast.error(error.response?.data.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   switch (role) {
     case "admin":
@@ -132,17 +155,18 @@ const Dashboard = ({ className }: IDashboard) => {
   return (
     <div className={cn("", className)}>
       <Sidebar>
+        <Loader loading={loading} />
         <h1 className="text-[1.2rem] font-bold mb-4 capitalize">
           Hi {user.name} 👋
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project: any, _i: any) => (
+          {data.map((data: any, _i: any) => (
             <StatsCard
-              name={project.name}
-              completedTasks={project.completedTasks}
-              totalTasks={project.totalTasks}
-              progressPercentage={project.progressPercentage}
+              name={data.project.name}
+              completedTasks={data.completed_tasks}
+              totalTasks={data.total_tasks}
+              progressPercentage={data.progress}
             />
           ))}
         </div>
