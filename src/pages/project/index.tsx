@@ -9,7 +9,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -74,16 +73,6 @@ const Project = ({ className }: IProject) => {
     fetchData();
   }, []);
 
-  const [formData, setFormData] = React.useState({
-    name: "",
-    description: "",
-  });
-
-  const handleInputChange = (e: React.FormEvent<HTMLFormElement> | any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const CreateProjectDialog = () => {
     const [formData, setFormData] = React.useState({
       name: "",
@@ -93,6 +82,8 @@ const Project = ({ className }: IProject) => {
     const [selection, setSelection] = React.useState("");
     const [startDate, setStartDate] = React.useState<Date>();
     const [endDate, setEndDate] = React.useState<Date>();
+    const [createProjectLoading, setCreateProjectLoading] =
+      React.useState(false);
 
     const handleInputChange = (e: React.FormEvent<HTMLFormElement> | any) => {
       const { name, value } = e.target;
@@ -104,7 +95,7 @@ const Project = ({ className }: IProject) => {
     ) => {
       try {
         e.preventDefault();
-        setLoading(true);
+        setCreateProjectLoading(true);
 
         const dataToSend = {
           ...formData,
@@ -113,13 +104,15 @@ const Project = ({ className }: IProject) => {
           project_manager_id: selection,
         };
 
-        console.log(dataToSend);
+        const response = await Axios.post("/api/project", dataToSend);
 
-        //const respose = await Axios.post("/api/project", {});
+        toast.success(response.data.message);
+
+        location.reload();
       } catch (error: any) {
         toast.error(error.response?.data.message || error.message);
       } finally {
-        setLoading(false);
+        setCreateProjectLoading(false);
       }
     };
 
@@ -129,6 +122,7 @@ const Project = ({ className }: IProject) => {
         onOpenChange={setCreateProjectDialog}
       >
         <DialogContent className="">
+          <Loader loading={createProjectLoading} />
           <DialogHeader>
             <DialogTitle>Create Project</DialogTitle>
             <DialogDescription>Create a new project.</DialogDescription>
@@ -252,9 +246,7 @@ const Project = ({ className }: IProject) => {
                 </SelectContent>
               </Select>
             </div>
-            <DialogFooter>
-              <Button type="submit">Create project</Button>
-            </DialogFooter>
+            <Button type="submit">Create project</Button>
           </form>
         </DialogContent>
       </Dialog>
