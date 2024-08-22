@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
+import Loader from "@/components/loader";
 
 const Signup = () => {
   const formSchema = z.object({
@@ -51,7 +52,7 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50"></div>
+      <Loader loading={true} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
