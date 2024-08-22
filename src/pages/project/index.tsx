@@ -22,7 +22,6 @@ import Loader from "@/components/loader";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -49,8 +48,6 @@ const Project = ({ className }: IProject) => {
   const [loading, setLoading] = React.useState(false);
   const [allProjects, setAllProjects] = React.useState([]);
   const [projectManagers, setProjectManagers] = React.useState([]);
-  const [startDate, setStartDate] = React.useState<Date>();
-  const [endDate, setEndDate] = React.useState<Date>();
 
   const { user } = useAuth();
 
@@ -77,7 +74,55 @@ const Project = ({ className }: IProject) => {
     fetchData();
   }, []);
 
+  const [formData, setFormData] = React.useState({
+    name: "",
+    description: "",
+  });
+
+  const handleInputChange = (e: React.FormEvent<HTMLFormElement> | any) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const CreateProjectDialog = () => {
+    const [formData, setFormData] = React.useState({
+      name: "",
+      description: "",
+    });
+
+    const [selection, setSelection] = React.useState("");
+    const [startDate, setStartDate] = React.useState<Date>();
+    const [endDate, setEndDate] = React.useState<Date>();
+
+    const handleInputChange = (e: React.FormEvent<HTMLFormElement> | any) => {
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value });
+    };
+
+    const handleCreateProject = async (
+      e: React.FormEvent<HTMLFormElement> | any
+    ) => {
+      try {
+        e.preventDefault();
+        setLoading(true);
+
+        const dataToSend = {
+          ...formData,
+          start_date: startDate,
+          end_date: endDate,
+          project_manager_id: selection,
+        };
+
+        console.log(dataToSend);
+
+        //const respose = await Axios.post("/api/project", {});
+      } catch (error: any) {
+        toast.error(error.response?.data.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     return (
       <Dialog
         open={showCreateProjectDialog}
@@ -88,16 +133,21 @@ const Project = ({ className }: IProject) => {
             <DialogTitle>Create Project</DialogTitle>
             <DialogDescription>Create a new project.</DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4 w-full">
+          <form
+            className="grid gap-4 py-4 w-full"
+            onSubmit={handleCreateProject}
+          >
             <div className="my-1">
               <Label htmlFor="name" className="text-right">
                 Name
               </Label>
               <Input
                 id="name"
-                value=""
                 className="col-span-3"
                 placeholder="Enter project name"
+                name="name"
+                onChange={handleInputChange}
+                value={formData.name}
               />
             </div>
 
@@ -109,6 +159,9 @@ const Project = ({ className }: IProject) => {
                 placeholder="Enter project description"
                 rows={3}
                 className="w-full"
+                name={"description"}
+                onChange={handleInputChange}
+                value={formData.description}
               />
             </div>
 
@@ -182,7 +235,7 @@ const Project = ({ className }: IProject) => {
               <Label htmlFor="projectManager" className="text-right">
                 Select Project Manager
               </Label>
-              <Select>
+              <Select onValueChange={setSelection}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a project" />
                 </SelectTrigger>
@@ -191,7 +244,7 @@ const Project = ({ className }: IProject) => {
                     <SelectLabel>Select a project manager</SelectLabel>
 
                     {projectManagers.map((manager: any, _i: any) => (
-                      <SelectItem value={manager.name} key={_i}>
+                      <SelectItem value={manager.id} key={_i}>
                         {manager.name}
                       </SelectItem>
                     ))}
@@ -199,10 +252,10 @@ const Project = ({ className }: IProject) => {
                 </SelectContent>
               </Select>
             </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit">Create project</Button>
-          </DialogFooter>
+            <DialogFooter>
+              <Button type="submit">Create project</Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     );
