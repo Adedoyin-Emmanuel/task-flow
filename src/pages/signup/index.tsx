@@ -51,6 +51,7 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50"></div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
