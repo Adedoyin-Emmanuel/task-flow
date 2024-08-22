@@ -5,6 +5,7 @@ import { authRoutes } from "@/routes/auth";
 import { userRoutes } from "@/routes/user";
 import { adminRoutes } from "@/routes/admin";
 import { projectManagerRoutes } from "./routes/manager";
+import Unauthorized from "./pages/unauthorized";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/">{userRoutes}</Route>
         <Route path="/admin">{adminRoutes}</Route>
         <Route path="/manager">{projectManagerRoutes}</Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </BrowserRouter>
   );

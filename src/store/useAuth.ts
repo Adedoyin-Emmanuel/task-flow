@@ -1,12 +1,26 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const useAuth = create(
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface AuthState {
+  user: User | null;
+  isLoggedIn: boolean;
+  login: (user: User) => void;
+  logout: () => void;
+}
+
+const useAuth = create<AuthState>()(
   persist(
     (set, get) => ({
       user: null,
       isLoggedIn: false,
-      login: (user: any) => set({ isLoggedIn: true, user }),
+      login: (user: User) => set({ isLoggedIn: true, user }),
       logout: () => set({ isLoggedIn: false, user: null }),
     }),
     {

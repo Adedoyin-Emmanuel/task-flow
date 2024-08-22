@@ -1,18 +1,25 @@
-
 import React from "react";
+import { Navigate } from "react-router-dom";
+import useAuth from "@/store/useAuth";
 
-interface ProtectedRouteProps {
-    
+interface IProtectedRoute {
+  children: React.ReactNode;
+  allowedRoles: "admin" | "team member" | "project manager";
 }
+const ProtectedRoute = ({ children, allowedRoles }: IProtectedRoute) => {
+  const { user } = useAuth();
 
-const ProtectedRoute = () => {
+  if (!user) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
-    return (
-        <div>
-            <h1>ProtectedRoute works!</h1>
-        </div>
-    );  
-}
+  const { role } = user;
+
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+};
 
 export default ProtectedRoute;
-    
