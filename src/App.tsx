@@ -6,19 +6,23 @@ import { userRoutes } from "@/routes/user";
 import { adminRoutes } from "@/routes/admin";
 import { projectManagerRoutes } from "./routes/manager";
 import Unauthorized from "./pages/unauthorized";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/">{publicRoutes}</Route>
-        <Route path="/auth">{authRoutes}</Route>
-        <Route path="/">{userRoutes}</Route>
-        <Route path="/admin">{adminRoutes}</Route>
-        <Route path="/manager">{projectManagerRoutes}</Route>
-        <Route path="/unauthorized" element={<Unauthorized />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Toaster />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">{publicRoutes}</Route>
+          <Route path="/auth">{authRoutes}</Route>
+          <Route path="/">{userRoutes}</Route>
+          <Route path="/admin">{adminRoutes}</Route>
+          <Route path="/manager">{projectManagerRoutes}</Route>
+          <Route path="/unauthorized" element={<Unauthorized />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

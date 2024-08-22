@@ -2,7 +2,7 @@ import { ClipLoader } from "react-spinners";
 
 interface ILoader {
   loading: boolean;
-  overlay: boolean;
+  overlay?: boolean;
   small?: boolean;
 }
 const Loader = ({ loading, overlay = true, small = false }: ILoader) => {

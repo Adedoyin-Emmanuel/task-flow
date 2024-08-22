@@ -52,7 +52,6 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Loader loading={true} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
